@@ -3,11 +3,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  post '/line/webhook' do
-    body = request.body.read
-    signature = request.env['HTTP_X_LINE_SIGNATURE']
-    events = client.parse_events_from(body)
-    events.each { |event| handle_message(event) }
-    head :ok
-  end  
+  post '/callback' => 'line_bot#callback'
 end
