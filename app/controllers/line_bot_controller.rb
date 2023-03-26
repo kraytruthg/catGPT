@@ -1,23 +1,35 @@
 require 'line_bot'
+require 'openai_engine'
 
 class LineBotController < ApplicationController
   def callback
-    event = params[:events][0]
-    # Get the incoming message from the request
-    message = event[:message][:text]
-
-    # Define the response message
-    response = { type: 'text', text: "Meow, you said: #{message}" }
-
-    # Send the response message back to the user
-    client.reply_message(event['replyToken'], response)
-
+    body = request.body.read
+    signature = request.env['HTTP_X_LINE_SIGNATURE']
+    unless client.validate_signature(body, signature)
+      head :bad_request
+      return
+    end
+    events = client.parse_events_from(body)
+    events.each do |event|
+      case event
+      when Line::Bot::Event::Message
+        case event.type
+        when Line::Bot::Event::MessageType::Text
+          response = OpenAIEngine.new.generate_response(event.message['text'])
+          message = {
+            type: 'text',
+            text: response
+          }
+          client.reply_message(event['replyToken'], message)
+        end
+      end
+    end
     head :ok
   end
 
-  private 
+  private
 
   def client
-    LineBot.new.client
+    @client ||= LineBot.new.client
   end
 end

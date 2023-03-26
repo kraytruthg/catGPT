@@ -37,6 +37,7 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 gem 'line-bot-api'
+gem "ruby-openai"
 gem 'dotenv-rails'
 
 group :development, :test do
