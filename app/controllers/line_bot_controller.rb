@@ -16,7 +16,7 @@ class LineBotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          response = OpenAICharacters::Explainer.new.generate_response(event.message['text'])
+          response = OpenAICharacters::Explainer.new.response(event.message['text'])
           message = {
             type: 'text',
             text: response
