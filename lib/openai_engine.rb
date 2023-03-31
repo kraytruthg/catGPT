@@ -1,20 +1,23 @@
 require 'openai'
 
 class OpenAIEngine
+  attr_reader :openai
+
   def initialize
     @openai = OpenAI::Client.new
-    @model_id = ENV['OPENAI_MODEL_ID']
   end
 
-  def generate_response(message)
-    response = @openai.chat(
-      parameters: {
-        model: @model_id,
-        messages: [{ role: "user", content: message }],
-        temperature: 0.7
-      }
-    )
+  def generate_response(input)
+    raise NotImplementedError
+  end
 
-    response.dig("choices", 0, "message", "content")
+  private 
+
+  def temperature
+    0.7
+  end
+
+  def model
+    "gpt-3.5-turbo"
   end
 end
