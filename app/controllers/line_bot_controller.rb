@@ -1,5 +1,6 @@
 require 'line_bot'
-require 'openai_engine'
+require 'openai_characters/explainer'
+require 'openai_characters/english_translator'
 
 class LineBotController < ApplicationController
   def callback
@@ -15,7 +16,7 @@ class LineBotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          response = OpenAIEngine.new.generate_response(event.message['text'])
+          response = OpenAICharacters::Explainer.new.generate_response(event.message['text'])
           message = {
             type: 'text',
             text: response
