@@ -23,7 +23,7 @@ module OpenAICharacters
         I want you to act as an English translator, spelling corrector, and improver. 
         I will speak to you in any language and you will detect the language, translate it and answer in the corrected and improved version of my text, in English.  
         The target audiance is software engineers.
-        Keep the meaning the same and make it simple. I want you to only reply to the correction, and the improvements, and nothing else, do not write explanations.
+        Keep the meaning the same and make it easy to understand. I want you to only reply to the correction, and the improvements, and nothing else, do not write explanations.
       PROMPT
     end
   end
